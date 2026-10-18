@@ -53,7 +53,13 @@
             <div class="bug-item">
               <div class="bug-item-label">{{ $t("goumai") }}</div>
               <div class="bug-item-input">
-                <van-stepper integer min="1" v-model="form.count" step="1" />
+                <van-stepper
+                  integer
+                  min="1"
+                  v-model="form.count"
+                  step="1"
+                  :decimal-length="2"
+                />
               </div>
             </div>
             <div class="bug-item">
@@ -111,7 +117,9 @@
           <div>{{ $t("zhanghu") }}:</div>
           <div>{{ balance }}</div>
         </div>
-            <div>{{$t("zonge")}}：{{ form.count*this.form.is_involve.length }}</div>
+        <div>
+          {{ $t("zonge") }}：{{ form.count * this.form.is_involve.length }}
+        </div>
         <div class="btn-wrapper">
           <van-button
             type="info"
@@ -196,6 +204,7 @@ export default {
             this.$toast(res.msg);
             return;
           }
+          this.getBalanceFun();
           this.btnBool = false;
           this.$toast(this.$t("success"));
           this.btnloading = false;

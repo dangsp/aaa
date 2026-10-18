@@ -193,6 +193,7 @@ export default {
 
     .data-right {
       color: #000;
+      margin-left: 0.54rem;
     }
   }
 }

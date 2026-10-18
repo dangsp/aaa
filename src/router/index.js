@@ -242,10 +242,12 @@ router.beforeEach((to, from, next) => {
 
   if (
     /Android|webOS|iPhone|iPod|BlackBerry/i.test(window.navigator.userAgent)
-  ) {
+  ) {   
     next();
+
   } else {
-    window.location.href = "./index.html";
+   // window.location.href = "./index.html";
+    next();
   }
 
   // if (lang == "vn") {

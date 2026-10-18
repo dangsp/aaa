@@ -169,4 +169,17 @@ export default {
       data,
     });
   },
+  homeToast: () => {
+    return request({
+      url: "/api/deposit/msg",
+      method: "post",
+    });
+  },
+  homeToastEdit: (data) => {
+    return request({
+      url: "api/deposit/edit",
+      method: "post",
+      data,
+    });
+  },
 };

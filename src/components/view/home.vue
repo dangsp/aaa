@@ -96,6 +96,7 @@
 <script>
 import footersub from "@/components/subcomponents/footer";
 import { getToken } from "@/utils/auth";
+import { Dialog } from "vant";
 
 export default {
   data() {
@@ -130,9 +131,30 @@ export default {
     this.getBanner();
     this.getList();
     this.getConfig();
+    const token = getToken();
+    if (token) {
+      this.getHomeToast();
+    }
   },
 
   methods: {
+    getHomeToast() {
+      this.$http.home.homeToast().then((res) => {
+        if (res.msg == "ok" && res.data.reason) {
+          Dialog.alert({
+            message: res.data.reason,
+            confirmButtonText: "ok",
+          }).then((dialog) => {
+            if (dialog == "confirm") {
+              this.setHomeToastEdit(res.data.id);
+            }
+          });
+        }
+      });
+    },
+    setHomeToastEdit(id) {
+      this.$http.home.homeToastEdit({ id });
+    },
     gotoRoute() {
       let token = getToken();
       console.log(token);
@@ -164,7 +186,6 @@ export default {
           page_limit: 10,
         })
         .then((res) => {
-          console.log("------ ~ res bannerData =>", res);
           if (res.code != 200) {
             this.$toast(res.msg);
             return;
@@ -185,14 +206,8 @@ export default {
           is_type: 1,
         })
         .then((res) => {
-          console.log("------ ~ res =>", res);
-
           this.airingPage.total = res.data.total;
           this.airingPage.loading = true;
-          console.log(
-            "------ ~ this.airingPage.currentPage * 10 > res.data.total =>",
-            this.airingPage.currentPage * 1 > res.data.total
-          );
           if (this.airingPage.currentPage * 1 > res.data.total) {
             return;
           } else {
@@ -209,7 +224,6 @@ export default {
           is_type: 2,
         })
         .then((res) => {
-          console.log(res);
           this.comingPage.total = res.data.total;
           this.comingPage.loading = true;
           if (this.comingPage.currentPage * 10 > res.data.total) {
